@@ -9,7 +9,7 @@ import (
 
 func TestCreateEntry(t *testing.T) {
 	arg := CreateEntryParams{
-		AccountID: 1,
+		AccountID: 45,
 		Amount:    util.RandMoney(),
 	}
 
@@ -19,7 +19,7 @@ func TestCreateEntry(t *testing.T) {
 }
 
 func TestGetEntry(t *testing.T) {
-	entry, err := testQueries.GetEntry(context.Background(), 1)
+	entry, err := testQueries.GetEntry(context.Background(), 80)
 	require.NoError(t, err)
 	require.NotEmpty(t, entry)
 }
@@ -27,7 +27,7 @@ func TestGetEntry(t *testing.T) {
 func TestListEntry(t *testing.T) {
 
 	arg := ListEntryParams{
-		AccountID: 1,
+		AccountID: 45,
 		Limit:     10,
 		Offset:    0,
 	}
@@ -35,5 +35,3 @@ func TestListEntry(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, entries)
 }
-
-

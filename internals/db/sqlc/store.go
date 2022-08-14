@@ -24,11 +24,12 @@ func (s *Store) execTx(ctx context.Context, fn func(queries *Queries) error) err
 	if err != nil {
 		return err
 	}
+
 	q := New(tx)
 	err = fn(q)
 	if err != nil {
 		if rbErr := tx.Rollback(); rbErr != nil {
-			return fmt.Errorf("tx error: %w, rollback error: %w", err, rbErr)
+			return fmt.Errorf("tx error: %w, rollback error: %v", err, rbErr)
 		}
 		return err
 	}
@@ -61,6 +62,7 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 
 	err := s.execTx(ctx, func(q *Queries) error {
 		var err error
+
 		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromAccountID: arg.FromAccountID,
 			ToAccountID:   arg.ToAccountID,
@@ -88,6 +90,12 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 
 		//TODO update accounts balance
 
+		if arg.FromAccountID < arg.ToAccountID {
+			result.FromAccount, result.ToAccount, err = addMoney(ctx, q, arg.FromAccountID, -arg.Amount, arg.ToAccountID, arg.Amount)
+		} else {
+			result.ToAccount, result.FromAccount, err = addMoney(ctx, q, arg.ToAccountID, arg.Amount, arg.FromAccountID, -arg.Amount)
+		}
+
 		return nil
 	})
 
@@ -96,4 +104,29 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 	}
 
 	return result, nil
+}
+
+func addMoney(
+	ctx context.Context,
+	q *Queries,
+	acc1ID int64,
+	amount1 int64,
+	acc2ID int64,
+	amount2 int64,
+) (acc1 Account, acc2 Account, err error) {
+	acc1, err = q.AddAccountBalce(ctx, AddAccountBalceParams{
+		ID:     acc1ID,
+		Amount: amount1,
+	})
+
+	if err != nil {
+		return
+	}
+
+	acc2, err = q.AddAccountBalce(ctx, AddAccountBalceParams{
+		ID:     acc2ID,
+		Amount: amount2,
+	})
+
+	return
 }

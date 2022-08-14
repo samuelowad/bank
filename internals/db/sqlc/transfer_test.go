@@ -28,7 +28,7 @@ func TestCreateTransfer(t *testing.T) {
 
 func TestGetTransfer(t *testing.T) {
 	createTransferFunc(t)
-	transfer, err := testQueries.GetTransfer(context.Background(), 1)
+	transfer, err := testQueries.GetTransfer(context.Background(), 45)
 	require.NoError(t, err)
 	require.NotEmpty(t, transfer)
 
@@ -36,8 +36,8 @@ func TestGetTransfer(t *testing.T) {
 
 func TestListTransfer(t *testing.T) {
 	arg := ListTransferParams{
-		FromAccountID: 1,
-		ToAccountID:   2,
+		FromAccountID: 45,
+		ToAccountID:   46,
 		Offset:        10,
 	}
 	transfers, err := testQueries.ListTransfer(context.Background(), arg)
