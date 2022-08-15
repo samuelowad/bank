@@ -9,10 +9,10 @@ dropDB:
 	docker exec -it some-postgres dropdb --username postgres --owner postgres bank
 
 migrateup:
-	migrate -path ./internals/db/migrations --database "postgresql://postgres:postgres@localhost:4321/bank?sslmode=disable" -verbose up
+	migrate -path internals/db/migrations --database "postgresql://postgres:postgres@localhost:4321/bank?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path ./internals/db/migrations --database "postgresql://postgres:postgres@localhost:4321/bank?sslmode=disable" -verbose down
+	migrate -path internals/db/migrations --database "postgresql://postgres:postgres@localhost:4321/bank?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
