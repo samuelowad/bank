@@ -28,7 +28,7 @@ func TestCreateTransfer(t *testing.T) {
 
 func TestGetTransfer(t *testing.T) {
 	createTransferFunc(t)
-	transfer, err := testQueries.GetTransfer(context.Background(), 45)
+	transfer, err := testQueries.GetTransfer(context.Background(), 1)
 	require.NoError(t, err)
 	require.NotEmpty(t, transfer)
 
