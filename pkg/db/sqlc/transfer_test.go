@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"github.com/samuelowad/bank/internals/util"
+	"github.com/samuelowad/bank/pkg/util"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

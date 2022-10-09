@@ -3,14 +3,17 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/samuelowad/bank/internals/util"
+	"github.com/samuelowad/bank/pkg/util"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func createRandomAccount(t *testing.T) Account {
+
+	user := createRandomUser(t)
+
 	arg := CreateAccountParams{
-		Owner:    util.RandOwner(),
+		Owner:    user.Username,
 		Balance:  util.RandMoney(),
 		Currency: util.RandCurrency(),
 	}

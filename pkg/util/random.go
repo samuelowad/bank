@@ -1,12 +1,13 @@
 package util
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZwqertyhbvcsqrhybvcdfehjhnvgbvcfewwgtdvcqefrgfbvcefrthgbdvsdcfwgrfvcxfeqwdscxefrshg"
 
 func inti() {
 	rand.Seed(time.Now().UnixNano())
@@ -44,4 +45,8 @@ func RandCurrency() string {
 	currencies := []string{"USD", "EUR", "GBP", "JPY", "CNY", "AUD", "CAD", "CHF"}
 	n := len(currencies)
 	return currencies[rand.Intn(n)]
+}
+
+func RandomEmail() string {
+	return fmt.Sprintf("%s@example.com", RandString(4))
 }

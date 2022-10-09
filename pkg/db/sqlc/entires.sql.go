@@ -72,7 +72,7 @@ func (q *Queries) ListEntry(ctx context.Context, arg ListEntryParams) ([]Entire,
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Entire
+	items := []Entire{}
 	for rows.Next() {
 		var i Entire
 		if err := rows.Scan(
